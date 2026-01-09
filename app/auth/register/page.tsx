@@ -33,7 +33,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // Sign up user - profile will be created automatically by database trigger
+      // Sign up user
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -50,6 +50,29 @@ export default function RegisterPage() {
 
       if (!authData.user) {
         throw new Error("Gagal membuat akun");
+      }
+
+      // Wait for session to be established and refresh
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      
+      // Get fresh session
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        throw new Error("Session tidak terbentuk, silakan login manual");
+      }
+
+      // Create profile with authenticated session
+      const { error: profileError } = await supabase.from("profiles").insert({
+        id: authData.user.id,
+        full_name: fullName,
+        phone: phone || null,
+        role: role,
+      });
+
+      if (profileError) {
+        console.error("Profile error:", profileError);
+        throw new Error(`Gagal membuat profile: ${profileError.message}`);
       }
 
       toast({

@@ -11,9 +11,13 @@ BEGIN
     NEW.id,
     COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
     COALESCE(NEW.raw_user_meta_data->>'role', 'ibu'),
-    COALESCE(NEW.raw_user_meta_data->>'phone', '')
+    NULLIF(COALESCE(NEW.raw_user_meta_data->>'phone', ''), '')
   );
   RETURN NEW;
+EXCEPTION
+  WHEN OTHERS THEN
+    RAISE LOG 'Error creating profile for user %: %', NEW.id, SQLERRM;
+    RETURN NEW;
 END;
 $$;
 

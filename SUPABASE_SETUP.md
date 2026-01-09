@@ -25,7 +25,14 @@
 4. Klik **Run** atau tekan `Ctrl+Enter`
 5. Tunggu sampai selesai
 
-### 1.4 Verifikasi Tables
+### 1.4 Jalankan Migration 003 (Fix Profile Insert) - PENTING!
+1. Klik **New Query** lagi
+2. Copy seluruh isi file `supabase/migrations/003_fix_profile_insert.sql`
+3. Paste ke SQL Editor
+4. Klik **Run** atau tekan `Ctrl+Enter`
+5. Tunggu sampai selesai
+
+### 1.5 Verifikasi Tables
 1. Klik **Table Editor** di sidebar
 2. Pastikan tables berikut sudah ada:
    - profiles
@@ -119,7 +126,17 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 
 ## Troubleshooting
 
-### Error: "Could not find the table 'public.profiles'"
+### Error: "new row violates row-level security policy"
+**Solusi:** 
+- Jalankan migration 003 (fix profile insert)
+- Atau jalankan query ini di SQL Editor:
+```sql
+DROP POLICY IF EXISTS "Users can insert own profile" ON profiles;
+CREATE POLICY "Users can insert own profile during registration"
+  ON profiles FOR INSERT
+  TO authenticated
+  WITH CHECK (auth.uid() = id);
+```
 **Solusi:** Migrations belum dijalankan. Ulangi Step 1.
 
 ### Error: "Invalid API key"

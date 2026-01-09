@@ -11,6 +11,9 @@ import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Heart, Mail, Lock, User, Loader2 } from "lucide-react";
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function RegisterPage() {
   const searchParams = useSearchParams();
   const defaultRole = searchParams.get("role") as "kader" | "ibu" | null;

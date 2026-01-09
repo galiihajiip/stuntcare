@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,13 +10,18 @@ export const metadata: Metadata = {
   title: "STUNTCARE - Pantau Tumbuh Kembang, Cegah Stunting Bersama",
   description: "Platform digital untuk Posyandu dan ibu balita dalam memantau pertumbuhan anak dan mencegah stunting",
   manifest: "/manifest.json",
-  themeColor: "#14b8a6",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "STUNTCARE",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#14b8a6",
 };
 
 export default function RootLayout({

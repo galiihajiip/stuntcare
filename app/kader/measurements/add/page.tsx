@@ -12,6 +12,9 @@ import { TrendingUp, Loader2 } from "lucide-react";
 import { calculateZScore } from "@/lib/growth/z-score";
 import { calculateAge } from "@/lib/growth/age-calculator";
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function AddMeasurementPage() {
   const [loading, setLoading] = useState(false);
   const [children, setChildren] = useState<any[]>([]);

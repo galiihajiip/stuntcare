@@ -9,6 +9,11 @@ const nextConfig = {
       },
     ],
   },
+  // Disable static page generation for all pages
+  // This prevents the useState error during build
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 }
 
 module.exports = nextConfig
